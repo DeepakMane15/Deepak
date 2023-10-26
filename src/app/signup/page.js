@@ -27,6 +27,14 @@ const SignUp = () => {
                 },
             });
 
+            for (const component of response.data.results) {
+                if (component.types.includes('locality')) {
+                    const city = component.long_name;
+                    console.log(`The city is: ${city}`);
+                    // return;
+                }
+            }
+
             const result = response.data.results[0];
             if (result) {
                 console.log(result);
@@ -37,6 +45,40 @@ const SignUp = () => {
             console.error('Error fetching coordinates: ', error);
         }
     };
+    const handleSubmit = () => {
+        try {
+            let fd = new FormData();
+
+            fd.append("fname", fname);
+            fd.append("lname", lname);
+            fd.append("profession", profession);
+            fd.append("ethnicity", ethnicity);
+            fd.append("address", address);
+            fd.append("languages", languages);
+            fd.append("phone", phone);
+            fd.append("city", "asd");
+            fd.append("lat", coordinates.lat);
+            fd.append("lon", coordinates.lon);
+
+
+            axios.post("https://dev.mycargo411.com/api/add-nurse", fd, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+                    'Content-Type': "application/json; charset=utf-8"
+                }
+            })
+                .then(res => {
+                    alert(res.message);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
 
 
     return (
@@ -78,6 +120,7 @@ const SignUp = () => {
                             <label for="exampleInputtext1" class="form-label">Address</label>
                             <input
                                 type="text"
+                                class="form-control"
                                 placeholder="Enter your address"
                                 value={address}
                                 onChange={(e) => handleAddressChange(e.target.value)}
@@ -89,7 +132,7 @@ const SignUp = () => {
                                 </div>
                             )}
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" onClick={handleSubmit} class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
