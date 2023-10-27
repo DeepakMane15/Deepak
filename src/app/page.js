@@ -3,9 +3,12 @@ import Image from 'next/image'
 import styles from './page.module.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/navbar';
+import { useRouter } from "next/navigation";
+
 import { useEffect, useRef, useState } from 'react';
 
 const Home = () => {
+  const router = useRouter();
 
   const [city, setCity] = useState('');
   const [addressSuggestions, setAddressSuggestions] = useState([]);
@@ -14,6 +17,11 @@ const Home = () => {
   const autocompleteInputRef = useRef(null);
 
   useEffect(() => {
+
+    if (!localStorage.getItem("user")) {
+      router.push("/login");
+    }
+
     const googleMapScript = document.createElement('script');
     googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBAztsIXonxMQ3DP70bFYgqClDw1QvCIp4&libraries=places`;
     googleMapScript.async = true;
@@ -75,7 +83,7 @@ const Home = () => {
   };
   return (
     <div>
-      <Navbar title={"My-App"}/>
+      <Navbar title={"My-App"} />
 
       <div style={{ marginTop: '40px' }}>
         <form className='container'>
@@ -105,7 +113,7 @@ const Home = () => {
                 </ul>
               )}
             </div>
-            <div className='col-md-4'>
+            <div className='col-md-12'>
               <button type="button" className="btn btn-primary mb-2 apply" onClick={handleCitySearch}>Search</button>
             </div>
 

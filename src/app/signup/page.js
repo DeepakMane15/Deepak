@@ -3,9 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/navbar';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
-
+    const router = useRouter();
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [profession, setProfession] = useState("");
@@ -15,6 +16,12 @@ const SignUp = () => {
     const [address, setAddress] = useState("");
 
     const [coordinates, setCoordinates] = useState(null);
+
+    useEffect(() => {
+        if (!localStorage.getItem("user")) {
+            router.push("/login");
+        }
+    }, [])
 
     const handleAddressChange = async (inputAddress) => {
         setAddress(inputAddress);
@@ -65,7 +72,7 @@ const SignUp = () => {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-                    'Content-Type': "application/json; charset=utf-8"
+                    'Content-Type': "application/x-www-form-urlencoded"
                 }
             })
                 .then(res => {
