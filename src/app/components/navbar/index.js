@@ -8,13 +8,8 @@ const Navbar = ({ title }) => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 {title != 'Sign-Up' && (
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-                            </li>
-                            {/* Add more navigation items here */}
-                        </ul>
+                    <div className="collapse navbar-collapse" id="navbarNav" style={{justifyContent:"end"}}>
+                                <a className="nav-link" href="/signup">Nurse Signup</a>
                     </div>
                 )}
             </div>
