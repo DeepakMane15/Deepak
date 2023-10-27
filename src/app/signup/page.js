@@ -14,6 +14,10 @@ const SignUp = () => {
     const [languages, setLanguages] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [internalNotes, setInternalNotes] = useState("");
+    const [serviceArea, setServiceArea] = useState("");
+    const [designation, setDesignation] = useState("");
+
 
     const [coordinates, setCoordinates] = useState(null);
 
@@ -65,7 +69,11 @@ const SignUp = () => {
             fd.append("phone", phone);
             fd.append("city", "asd");
             fd.append("lat", coordinates.lat);
-            fd.append("lon", coordinates.lon);
+            fd.append("lon", coordinates.lng);
+            fd.append("serviceArea", serviceArea);
+            fd.append("internalNotes", internalNotes);
+            fd.append("designation", designation);
+
 
 
             axios.post("https://dev.mycargo411.com/api/add-nurse", fd, {
@@ -118,6 +126,23 @@ const SignUp = () => {
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputtext1" class="form-label">Service Area</label>
+                            <select class="form-select" aria-label="Default select example" value={serviceArea} onChange={e => setServiceArea(e.target.value)}>
+                                <option selected >select service area</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputtext1" class="form-label">Designation</label>
+                            <input type="text" class="form-control" value={designation} onChange={(e) => setDesignation(e.target.value)} />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputtext1" class="form-label">Interal notes</label>
+                            <input type="text" class="form-control" value={internalNotes} onChange={(e) => setInternalNotes(e.target.value)} />
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Phone No</label>

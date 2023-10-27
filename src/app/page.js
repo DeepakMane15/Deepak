@@ -113,7 +113,7 @@ const Home = () => {
                 </ul>
               )}
             </div>
-            <div className='col-md-12'>
+            <div className='col-md-4'>
               <button type="button" className="btn btn-primary mb-2 apply" onClick={handleCitySearch}>Search</button>
             </div>
 
