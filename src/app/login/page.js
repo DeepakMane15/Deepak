@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRouter } from "next/navigation";
 
@@ -9,11 +9,17 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const router = useRouter();
 
+    useEffect(() => {
+        if (localStorage.getItem("user")) {
+            router.push("/");
+        }
+    },[])
+
     const handleLogin = () => {
         if (username === 'admin' && password === 'admin') {
             localStorage.setItem('user', username);
             router.push("/");
-        } else{
+        } else {
             alert("invalid username or password");
         }
     }
