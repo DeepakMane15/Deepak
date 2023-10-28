@@ -72,8 +72,8 @@ const Profile = () => {
     return (
         <>
             <Navbar title="TeamedServ" />
-            <div className="container"style={{ marginTop: "40px" }}>
-                <h3 style={{color: "#5c5c5c"}}>Profiles</h3>
+            <div className="container" style={{ marginTop: "40px" }}>
+                <h3 style={{ color: "#5c5c5c" }}>Profiles</h3>
                 <table class="table" style={{ marginTop: "10px" }}>
                     <thead>
                         <tr>
@@ -91,7 +91,7 @@ const Profile = () => {
                     </thead>
                     <tbody>
                         {data.map(d => (
-                            <tr>
+                            <tr key="d.fname">
                                 <td>{d.fname + " " + d.lname}</td>
                                 <td>{d.email}</td>
                                 <td>{d.profession}</td>
