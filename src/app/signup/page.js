@@ -21,7 +21,26 @@ const SignUp = () => {
     const [designation, setDesignation] = useState("");
     const [email, setEmail] = useState("");
     const [selectedValue, setSelectedValue] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [filteredCitiesMaster, setFilteredCitiesMaster] = useState([]);
 
+    const categoryMaster = [{ name: 'Los Angeles', id: 1 }, { name: 'Orange', id: 2 }, { name: 'Kern', id: 3 }];
+
+    const citiesMaster = [{
+        name: "Acton", cat: 'Los Angeles', id: 1
+    },
+    { name: "Agoura Hills", cat: 'Los Angeles', id: 2 },
+    { name: "Alhambra", cat: 'Los Angeles', id: 3 },
+    { name: "Altadena", cat: 'Los Angeles', id: 4 },
+    { name: "Aliso Viejo", cat: 'Orange', id: 5 },
+    { name: "Anaheim", cat: 'Orange', id: 6 },
+    { name: "Brea", cat: 'Orange', id: 7 },
+    { name: "Buena Park", cat: 'Orange', id: 8 },
+    { name: "Arvin", cat: 'Kern', id: 9 },
+    { name: "Bakersfield", cat: 'Kern', id: 10 },
+    { name: "Bodfish", cat: 'Kern', id: 11 },
+    { name: "Boron", cat: 'Kern', id: 12 }
+    ]
 
     const [coordinates, setCoordinates] = useState(null);
 
@@ -151,6 +170,13 @@ const SignUp = () => {
     const onRemove = (selectedList, removedItem) => {
         console.log(selectedList, removedItem);
     }
+
+    const handleRegionChange = (selectedList, selectedItem) => {
+        let categoryy = category;
+        categoryy = [...categoryy, selectedItem.name];
+        setCategory(categoryy);
+
+    }
     return (
         <>
             <Navbar title={"Sign-Up"} />
@@ -184,7 +210,7 @@ const SignUp = () => {
                         <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Ethnicity</label>
                             <Multiselect
-                                options={professionsMaster} // Options to display in the dropdown
+                                options={ethnicityMaster} // Options to display in the dropdown
                                 selectedValues={selectedValue} // Preselected value to persist in dropdown
                                 onSelect={onSelect} // Function will trigger on select event
                                 onRemove={onRemove} // Function will trigger on remove event
@@ -192,20 +218,6 @@ const SignUp = () => {
                                 placeholder="Select Ethnicity"
                                 displayValue="name" // Property name to display in the dropdown options
                             />
-                            {/* <input type="text" class="form-control" value={ethnicity} onChange={(e) => setEthnicity(e.target.value)} /> */}
-                            {/* <select class="form-select" aria-label="Default select example" value={ethnicity} onChange={e => setEthnicity(e.target.value)}>
-                                <option selected >select Ethnicity</option>
-                                <option value="1">Africans Americans</option>
-                                <option value="2">Arabs</option>
-                                <option value="3">Europeans</option>
-                                <option value="3">Hispanic and Latino Americans</option>
-                                <option value="3">Indian</option>
-                                <option value="3">Non-Hispanic Whites</option>
-                                <option value="3">White Americans</option>
-                                <option value="3">Africans</option>
-                                <option value="3">Other</option>
-
-                            </select> */}
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Languages</label>
@@ -221,13 +233,34 @@ const SignUp = () => {
                             />
                         </div>
                         <div class="mb-3">
+                            <label for="exampleInputtext1" class="form-label">Region</label>
+                            <Multiselect
+                                options={categoryMaster} // Options to display in the dropdown
+                                selectedValues={selectedValue} // Preselected value to persist in dropdown
+                                onSelect={handleRegionChange} // Function will trigger on select event
+                                onRemove={onRemove} // Function will trigger on remove event
+                                showCheckbox={true}
+                                placeholder="Select Region"
+                                displayValue="name" // Property name to display in the dropdown options
+                            />
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Service Area</label>
-                            <select class="form-select" aria-label="Default select example" value={serviceArea} onChange={e => setServiceArea(e.target.value)}>
+                            <Multiselect
+                                options={citiesMaster} // Options to display in the dropdown
+                                selectedValues={selectedValue} // Preselected value to persist in dropdown
+                                onSelect={onSelect} // Function will trigger on select event
+                                onRemove={onRemove} // Function will trigger on remove event
+                                showCheckbox={true}
+                                placeholder="Select Profession"
+                                displayValue="name" // Property name to display in the dropdown options
+                            />
+                            {/* <select class="form-select" aria-label="Default select example" value={serviceArea} onChange={e => setServiceArea(e.target.value)}>
                                 <option selected >select service area</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
-                            </select>
+                            </select> */}
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Designation</label>

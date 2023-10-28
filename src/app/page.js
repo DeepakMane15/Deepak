@@ -83,7 +83,7 @@ const Home = () => {
   };
   return (
     <div>
-      <Navbar title={"My-App"} />
+      <Navbar title={"TeamedServ"} />
 
       <div style={{ marginTop: '40px' }}>
         <form className='container'>
