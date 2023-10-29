@@ -11,13 +11,13 @@ const SignUp = () => {
     const router = useRouter();
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
-    const [profession, setProfession] = useState([]);
+    const [profession, setProfession] = useState("");
     const [ethnicity, setEthnicity] = useState("");
-    const [languages, setLanguages] = useState("");
+    const [languages, setLanguages] = useState([]);
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [internalNotes, setInternalNotes] = useState("");
-    const [serviceArea, setServiceArea] = useState("");
+    const [serviceArea, setServiceArea] = useState([]);
     const [designation, setDesignation] = useState("");
     const [email, setEmail] = useState("");
     const [selectedValue, setSelectedValue] = useState([]);
@@ -81,34 +81,36 @@ const SignUp = () => {
     };
     const handleSubmit = () => {
         try {
-            let fd = new FormData();
+            let fd = {
 
-            fd.append("fname", fname);
-            fd.append("lname", lname);
-            fd.append("profession", profession);
-            fd.append("ethnicity", ethnicity);
-            fd.append("address", address);
-            fd.append("email", email);
-            fd.append("languages", languages);
-            fd.append("phone", phone);
-            fd.append("city", "asd");
-            fd.append("lat", coordinates.lat);
-            fd.append("lon", coordinates.lng);
-            fd.append("serviceArea", serviceArea);
-            fd.append("internalNotes", internalNotes);
-            fd.append("designation", designation);
+                fname: fname,
+                lname: lname,
+                profession: profession,
+                ethnicity: ethnicity,
+                address: address,
+                email: email,
+                languages: languages,
+                phone: phone,
+                city: "asd",
+                lat: coordinates.lat,
+                lon: coordinates.lng,
+                serviceArea: serviceArea,
+                internalNotes: internalNotes,
+                designation: designation
+            }
 
 
-
-            axios.post("https://dev.mycargo411.com/api/add-nurse", fd, {
+            axios.post("https://api.inventorysolutions.in/api/nurses", fd, {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
                     'Content-Type': "application/json"
                 }
             })
                 .then(res => {
-                    alert(res.message);
+                    console.log(res.message);
+                    alert("Added successfully");
+                    reset();
+                    window.location.reload();
                 })
                 .catch(err => {
                     console.log(err);
@@ -147,17 +149,17 @@ const SignUp = () => {
     ];
     const languagesMaster = [
         { name: 'English)', id: 1 },
-        { name: 'spanish)', id: 1 },
-        { name: 'Arabic)', id: 1 },
-        { name: 'Armenian)', id: 1 },
-        { name: 'Chinese)', id: 1 },
-        { name: 'French)', id: 1 },
-        { name: 'Hindi)', id: 1 },
-        { name: 'Korean)', id: 1 },
-        { name: 'Persian)', id: 1 },
-        { name: 'Russian)', id: 1 },
-        { name: 'Vietnamese)', id: 1 },
-        { name: 'Hebrow)', id: 1 },
+        { name: 'spanish)', id: 2 },
+        { name: 'Arabic)', id: 3 },
+        { name: 'Armenian)', id: 4 },
+        { name: 'Chinese)', id: 5 },
+        { name: 'French)', id: 6 },
+        { name: 'Hindi)', id: 7 },
+        { name: 'Korean)', id: 8 },
+        { name: 'Persian)', id: 9 },
+        { name: 'Russian)', id: 10 },
+        { name: 'Vietnamese)', id: 11 },
+        { name: 'Hebrow)', id: 12 },
     ]
 
     const handleChange = (selectedOptions) => {
@@ -176,6 +178,21 @@ const SignUp = () => {
         categoryy = [...categoryy, selectedItem.name];
         setCategory(categoryy);
 
+    }
+    const reset = () => {
+        setFname("");
+        setLname("");
+        setProfession("");
+        setEthnicity("");
+        setLanguages([]);
+        setPhone("");
+        setAddress("");
+        setInternalNotes("");
+        setServiceArea([]);
+        setDesignation("");
+        setEmail("");
+        setSelectedValue([]);
+        setCategory([]);
     }
     return (
         <>
@@ -197,27 +214,23 @@ const SignUp = () => {
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Profession</label>
-                            <Multiselect
-                                options={professionsMaster} // Options to display in the dropdown
-                                selectedValues={selectedValue} // Preselected value to persist in dropdown
-                                onSelect={onSelect} // Function will trigger on select event
-                                onRemove={onRemove} // Function will trigger on remove event
-                                showCheckbox={true}
-                                placeholder="Select Profession"
-                                displayValue="name" // Property name to display in the dropdown options
-                            />
+                            <select className='form-select' value={profession} onChange={(e) => setProfession(e.target.value)}>
+                                <option value="0"> Select Profession</option>
+                                {(professionsMaster.map(p => (
+                                    <option key={p.name} value={p.name}> {p.name}</option>
+
+                                )))}
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Ethnicity</label>
-                            <Multiselect
-                                options={ethnicityMaster} // Options to display in the dropdown
-                                selectedValues={selectedValue} // Preselected value to persist in dropdown
-                                onSelect={onSelect} // Function will trigger on select event
-                                onRemove={onRemove} // Function will trigger on remove event
-                                showCheckbox={true}
-                                placeholder="Select Ethnicity"
-                                displayValue="name" // Property name to display in the dropdown options
-                            />
+                            <select className='form-select' value={ethnicity} onChange={(e) => setEthnicity(e.target.value)}>
+                                <option value="0"> Select Ethnicity</option>
+                                {(ethnicityMaster.map(p => (
+                                    <option key={p.name} value={p.name}> {p.name}</option>
+
+                                )))}
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputtext1" class="form-label">Languages</label>
@@ -225,8 +238,13 @@ const SignUp = () => {
                             <Multiselect
                                 options={languagesMaster} // Options to display in the dropdown
                                 selectedValues={selectedValue} // Preselected value to persist in dropdown
-                                onSelect={onSelect} // Function will trigger on select event
-                                onRemove={onRemove} // Function will trigger on remove event
+                                onSelect={(selectedList, selectedItem) => { let lang = languages; lang.push(selectedItem.name); setLanguages(lang); console.log(languages) }} // Function will trigger on select event
+                                onRemove={(selectedList, selectedItem) => {
+                                    let index = languages.indexOf(selectedItem.name);
+                                    let languagess = languages;
+                                    languagess.splice(index, 1);
+                                    setLanguages(languagess);
+                                }} // Function will trigger on remove event
                                 showCheckbox={true}
                                 placeholder="Select Languages"
                                 displayValue="name" // Property name to display in the dropdown options
@@ -237,8 +255,13 @@ const SignUp = () => {
                             <Multiselect
                                 options={categoryMaster} // Options to display in the dropdown
                                 selectedValues={selectedValue} // Preselected value to persist in dropdown
-                                onSelect={handleRegionChange} // Function will trigger on select event
-                                onRemove={onRemove} // Function will trigger on remove event
+                                onSelect={(selectedList, selectedItem) => { let lang = category; lang.push(selectedItem.name); setCategory(lang); console.log(category) }} // Function will trigger on select event
+                                onRemove={(selectedList, selectedItem) => {
+                                    let index = category.indexOf(selectedItem.name);
+                                    let categorys = category;
+                                    categorys.splice(index, 1);
+                                    setCategory(categorys);
+                                }} // Function will trigger on remove event
                                 showCheckbox={true}
                                 placeholder="Select Region"
                                 displayValue="name" // Property name to display in the dropdown options
@@ -249,8 +272,13 @@ const SignUp = () => {
                             <Multiselect
                                 options={citiesMaster} // Options to display in the dropdown
                                 selectedValues={selectedValue} // Preselected value to persist in dropdown
-                                onSelect={onSelect} // Function will trigger on select event
-                                onRemove={onRemove} // Function will trigger on remove event
+                                onSelect={(selectedList, selectedItem) => { let lang = serviceArea; lang.push(selectedItem.name); setServiceArea(lang); console.log(serviceArea) }} // Function will trigger on select event
+                                onRemove={(selectedList, selectedItem) => {
+                                    let index = serviceArea.indexOf(selectedItem.name);
+                                    let serviceAreas = serviceArea;
+                                    serviceAreas.splice(index, 1);
+                                    setServiceArea(serviceAreas);
+                                }} // Function will trigger on remove event
                                 showCheckbox={true}
                                 placeholder="Select Profession"
                                 displayValue="name" // Property name to display in the dropdown options

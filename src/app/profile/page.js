@@ -9,57 +9,57 @@ import Navbar from '../components/navbar';
 
 const Profile = () => {
 
-    // const [data, setData] = useState([]);
+    const [data, setData] = useState([]);
 
-    const data = [
-        {
-            fname: "Adam", lname: "Ad",
-            address: "New York", city: "New York",
-            email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
-            languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
+    // const data = [
+    //     {
+    //         fname: "Adam", lname: "Ad",
+    //         address: "New York", city: "New York",
+    //         email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
+    //         languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
 
-        },
-        {
-            fname: "Thor", lname: "Odinson",
-            address: "New York", city: "New York",
-            email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
-            languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
+    //     },
+    //     {
+    //         fname: "Thor", lname: "Odinson",
+    //         address: "New York", city: "New York",
+    //         email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
+    //         languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
 
-        },
-        {
-            fname: "Peter", lname: "Parkar",
-            address: "New York", city: "New York",
-            email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
-            languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
+    //     },
+    //     {
+    //         fname: "Peter", lname: "Parkar",
+    //         address: "New York", city: "New York",
+    //         email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
+    //         languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
 
-        },
-        {
-            fname: "Aka dm", lname: "Eon",
-            address: "New York", city: "New York",
-            email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
-            languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
+    //     },
+    //     {
+    //         fname: "Aka dm", lname: "Eon",
+    //         address: "New York", city: "New York",
+    //         email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
+    //         languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
 
-        },
-        {
-            fname: "Bruce", lname: "Banner",
-            address: "New York", city: "New York",
-            email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
-            languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
+    //     },
+    //     {
+    //         fname: "Bruce", lname: "Banner",
+    //         address: "New York", city: "New York",
+    //         email: "example@gmail.com", profession: "SHHA", ethnicity: "Care Giver",
+    //         languages: "English,Hindi", internal_notes: "Notes", designation: "ST", service_area: "Acton"
 
-        },
-    ];
+    //     },
+    // ];
 
     useEffect(() => {
-        // getProfileData();
+        getProfileData();
     }, [])
     const getProfileData = () => {
         try {
-            axios.get("https://dev.mycargo411.com/api/get-nurses")
+            axios.get("https://api.inventorysolutions.in/api/nurses/get-nurses")
                 .then((res) => {
-                    if (res.status === 200)
-                        setData(res.data);
+                    if (res.data.status === 200)
+                        setData(res.data.data);
                     else
-                        console.log(res.message);
+                        console.log(res.data.message);
                 })
                 .catch(err => {
                     console.log(err);
@@ -90,7 +90,7 @@ const Profile = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map(d => (
+                        {data && data.map(d => (
                             <tr key="d.fname">
                                 <td>{d.fname + " " + d.lname}</td>
                                 <td>{d.email}</td>
@@ -99,9 +99,9 @@ const Profile = () => {
                                 <td>{d.designation}</td>
                                 <td>{d.address}</td>
                                 <td>{d.city}</td>
-                                <td>{d.service_area}</td>
-                                <td>{d.languages}</td>
-                                <td>{d.internal_notes}</td>
+                                <td>{d.serviceArea.map(s => (<p key={s}>{s}</p>))}</td>
+                                <td>{d.languages.map(l => (<p key={l}>{l}</p>))}</td>
+                                <td>{d.internalNotes}</td>
                             </tr>
                         ))}
                     </tbody>
